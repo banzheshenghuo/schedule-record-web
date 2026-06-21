@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   SLOT_STEP,
   canPlace,
@@ -43,6 +43,19 @@ export default function TimeGridPicker({
     return s;
   }, [slots]);
 
+  // 打开时自动锚定到当前选中时段，居中显示
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const targetTop = startCell * CELL_HEIGHT;
+    const targetCenter = targetTop - el.clientHeight / 2 + CELL_HEIGHT / 2;
+    el.scrollTo({
+      top: Math.max(0, Math.min(el.scrollHeight - el.clientHeight, targetCenter)),
+      behavior: 'instant',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const start = startCell * SLOT_STEP;
   const end = endCell * SLOT_STEP;
   const canSave = canPlace(slots, { start, end });
@@ -61,6 +74,9 @@ export default function TimeGridPicker({
       e.preventDefault();
       dragging.current = target;
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      // 拖拽期间禁用整个 body 的文本选择，防止长按选中其他文本
+      document.body.style.userSelect = 'none';
+      document.body.style.webkitUserSelect = 'none';
     };
   }
 
@@ -87,6 +103,8 @@ export default function TimeGridPicker({
 
   function handlePointerUp() {
     dragging.current = null;
+    document.body.style.userSelect = '';
+    document.body.style.webkitUserSelect = '';
   }
 
   function handleConfirm() {
@@ -132,10 +150,16 @@ export default function TimeGridPicker({
 
         <div
           ref={gridRef}
-          className="relative flex-1 overflow-y-auto no-scrollbar px-4 py-2 overscroll-contain"
+          className="relative flex-1 overflow-y-auto no-scrollbar px-4 py-2 overscroll-contain select-none"
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
+          onContextMenu={(e) => e.preventDefault()}
+          style={{
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none',
+            userSelect: 'none',
+          }}
         >
           {/* 选中区间高亮 */}
           {startCell < endCell && (
