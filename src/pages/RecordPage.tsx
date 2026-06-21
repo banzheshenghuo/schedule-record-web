@@ -134,7 +134,7 @@ export default function RecordPage() {
       <DateBar date={date} onChange={setDate} />
       <div className="flex-1 px-3 py-3 space-y-2 max-w-md mx-auto w-full">
         {sortedSlots.length === 0 && (
-          <div className="text-center text-gray-400 py-16">
+          <div className="text-center text-gray-400 dark:text-zinc-500 py-16">
             <p className="text-3xl mb-2">🗂️</p>
             <p>今天还没有记录</p>
             <p className="text-xs mt-1">点击下方 + 添加时间段</p>
@@ -226,29 +226,29 @@ function EditorSheet({
         onClick={onCancel}
       />
       <div
-        className="relative bg-white rounded-t-2xl px-4 pt-4"
+        className="relative bg-white dark:bg-zinc-800 rounded-t-2xl px-4 pt-4"
         style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)' }}
       >
         <div className="flex items-center justify-between mb-3">
-          <button className="text-gray-500 text-sm" onClick={onCancel}>
+          <button className="text-gray-500 dark:text-zinc-400 text-sm" onClick={onCancel}>
             取消
           </button>
-          <span className="font-medium">编辑时间段</span>
+          <span className="font-medium text-gray-900 dark:text-zinc-100">编辑时间段</span>
           <button className="text-brand font-medium text-sm" onClick={onSave}>
             保存
           </button>
         </div>
         <button
-          className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 rounded-xl mb-3"
+          className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-zinc-700/50 rounded-xl mb-3"
           onClick={() => setShowPicker(true)}
         >
-          <span className="text-gray-500 text-sm">时间</span>
-          <span className="text-gray-900 text-sm font-medium">
+          <span className="text-gray-500 dark:text-zinc-400 text-sm">时间</span>
+          <span className="text-gray-900 dark:text-zinc-100 text-sm font-medium">
             {minutesToLabel(editor.start)} - {minutesToLabel(editor.end)}
           </span>
         </button>
         <textarea
-          className="w-full min-h-[140px] p-3 bg-gray-50 rounded-xl text-[15px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full min-h-[140px] p-3 bg-gray-50 dark:bg-zinc-700/50 dark:text-zinc-100 dark:placeholder-zinc-500 rounded-xl text-[15px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-brand"
           placeholder="这段时间做了什么..."
           value={editor.content}
           onChange={(e) => onChange({ content: e.target.value })}

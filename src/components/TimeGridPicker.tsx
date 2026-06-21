@@ -127,12 +127,12 @@ export default function TimeGridPicker({
         className="absolute inset-0 bg-black/40"
         onClick={onCancel}
       />
-      <div className="relative bg-white rounded-t-2xl max-h-[80vh] flex flex-col">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <button className="text-gray-500 text-sm" onClick={onCancel}>
+      <div className="relative bg-white dark:bg-zinc-800 rounded-t-2xl max-h-[80vh] flex flex-col">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-zinc-700">
+          <button className="text-gray-500 dark:text-zinc-400 text-sm" onClick={onCancel}>
             取消
           </button>
-          <span className="font-medium text-gray-900">选择时间段</span>
+          <span className="font-medium text-gray-900 dark:text-zinc-100">选择时间段</span>
           <button
             className="text-brand text-sm font-medium disabled:opacity-40"
             disabled={!canSave}
@@ -142,12 +142,12 @@ export default function TimeGridPicker({
           </button>
         </div>
 
-        <div className="px-4 pt-3 text-sm text-gray-600">
+        <div className="px-4 pt-3 text-sm text-gray-600 dark:text-zinc-300">
           已选：
-          <span className="text-gray-900 font-medium">
+          <span className="text-gray-900 dark:text-zinc-100 font-medium">
             {minutesToLabel(start)} - {minutesToLabel(end)}
           </span>
-          <span className="ml-2 text-gray-400 text-xs">
+          <span className="ml-2 text-gray-400 dark:text-zinc-500 text-xs">
             {(end - start) / 60} 小时
           </span>
         </div>
@@ -168,7 +168,7 @@ export default function TimeGridPicker({
           {/* 选中区间高亮 */}
           {startCell < endCell && (
             <div
-              className="absolute left-4 right-4 bg-blue-100/60 border-l-4 border-brand rounded-md pointer-events-none"
+              className="absolute left-4 right-4 bg-blue-100/60 dark:bg-blue-900/30 border-l-4 border-brand rounded-md pointer-events-none"
               style={{
                 top: startCell * CELL_HEIGHT + 8,
                 height: (endCell - startCell) * CELL_HEIGHT,
@@ -216,13 +216,15 @@ export default function TimeGridPicker({
                 <div
                   key={i}
                   data-index={i}
-                  className="flex items-center border-b border-gray-50"
+                  className="flex items-center border-b border-gray-50 dark:border-zinc-700/40"
                   style={{ height: CELL_HEIGHT }}
                 >
                   <div
                     className={[
                       'w-16 text-xs',
-                      occupied ? 'text-gray-300' : 'text-gray-500',
+                      occupied
+                        ? 'text-gray-300 dark:text-zinc-600'
+                        : 'text-gray-500 dark:text-zinc-400',
                     ].join(' ')}
                   >
                     {minutesToLabel(min)}
@@ -230,7 +232,9 @@ export default function TimeGridPicker({
                   <div
                     className={[
                       'flex-1 text-xs',
-                      occupied ? 'text-gray-300' : 'text-gray-400',
+                      occupied
+                        ? 'text-gray-300 dark:text-zinc-600'
+                        : 'text-gray-400 dark:text-zinc-500',
                     ].join(' ')}
                   >
                     {occupied ? '占用' : `至 ${minutesToLabel(nextMin)}`}
@@ -242,15 +246,15 @@ export default function TimeGridPicker({
         </div>
 
         {error && (
-          <div className="px-4 py-2 text-sm text-red-600 bg-red-50 border-t border-red-100">
+          <div className="px-4 py-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-t border-red-100 dark:border-red-900/40">
             {error}
           </div>
         )}
         <div
-          className="px-4 py-3 border-t border-gray-100"
+          className="px-4 py-3 border-t border-gray-100 dark:border-zinc-700"
           style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)' }}
         >
-          <p className="text-xs text-gray-400 mb-2">长按上/下手柄拖动调整范围</p>
+          <p className="text-xs text-gray-400 dark:text-zinc-500 mb-2">长按上/下手柄拖动调整范围</p>
           <button
             className="w-full h-11 rounded-xl bg-brand text-white font-medium active:bg-brand-dark disabled:opacity-40"
             disabled={!canSave}

@@ -10,16 +10,27 @@ body,
   overflow-x: hidden;
 }
 
+:root {
+  --bg: #f5f6f8;
+  --text: #1f2937;
+}
+
+html.dark {
+  --bg: #0f1115;
+  --text: #e5e7eb;
+}
+
 body {
   margin: 0;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue',
     Helvetica, Arial, sans-serif;
-  background: #f5f6f8;
-  color: #1f2937;
+  background: var(--bg);
+  color: var(--text);
   touch-action: manipulation;
   overscroll-behavior-y: none;
+  transition: background-color 200ms, color 200ms;
 }
 
 button {

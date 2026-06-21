@@ -4,8 +4,10 @@ import { HashRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import { initDraftCache } from './lib/draft';
+import { applyTheme, getStoredTheme } from './lib/theme';
 
 initDraftCache();
+applyTheme(getStoredTheme());
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

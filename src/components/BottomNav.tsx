@@ -15,7 +15,7 @@ const TABS: Tab[] = [
 export default function BottomNav() {
   return (
     <nav
-      className="fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 max-w-md mx-auto"
+      className="fixed bottom-0 inset-x-0 z-30 bg-white dark:bg-zinc-800 border-t border-gray-200 dark:border-zinc-700 max-w-md mx-auto"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div className="grid grid-cols-3 h-14">
@@ -26,7 +26,7 @@ export default function BottomNav() {
             className={({ isActive }) =>
               [
                 'flex flex-col items-center justify-center gap-0.5 text-xs select-none',
-                isActive ? 'text-brand' : 'text-gray-500',
+                isActive ? 'text-brand' : 'text-gray-500 dark:text-zinc-400',
               ].join(' ')
             }
           >
