@@ -78,22 +78,13 @@ export default function TimeSlotCard({ slot, onEdit, onDelete }: Props) {
             {minutesToLabel(slot.start)} - {minutesToLabel(slot.end)}
           </span>
           <span className="text-gray-400 text-xs">
-            {Math.round((slot.end - slot.start) / 6) / 10}h
+            {(slot.end - slot.start) / 60}h
           </span>
         </div>
         <div
           className="flex items-center gap-1"
           onPointerDown={(e) => e.stopPropagation()}
         >
-          {onEdit && (
-            <button
-              className="w-8 h-8 flex items-center justify-center text-gray-500 active:bg-gray-100 rounded-full"
-              onClick={onEdit}
-              aria-label="编辑"
-            >
-              ✎
-            </button>
-          )}
           {onDelete && (
             <button
               className="w-8 h-8 flex items-center justify-center text-red-500 active:bg-red-50 rounded-full"

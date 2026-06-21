@@ -1,6 +1,6 @@
 import type { TimeSlot } from '../types/record';
 
-export const SLOT_STEP = 30;
+export const SLOT_STEP = 15;
 export const MINUTES_PER_DAY = 1440;
 
 export function isOverlap(a: { start: number; end: number }, b: { start: number; end: number }) {

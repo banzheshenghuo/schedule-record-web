@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  MINUTES_PER_DAY,
   SLOT_STEP,
   canPlace,
   isCellOccupied,
@@ -15,8 +16,8 @@ interface Props {
   onCancel: () => void;
 }
 
-const CELL_COUNT = 48; // 48 * 30 = 1440
-const CELL_HEIGHT = 44;
+const CELL_COUNT = MINUTES_PER_DAY / SLOT_STEP; // 96 格 * 15min = 1440
+const CELL_HEIGHT = 36;
 
 function minutesToCell(min: number) {
   return Math.round(min / SLOT_STEP);

@@ -1,6 +1,6 @@
 export interface TimeSlot {
   id: string;
-  start: number; // 当天分钟数 0-1439，30 的倍数
+  start: number; // 当天分钟数 0-1439，15 的倍数
   end: number; // 排他结束，> start，<=1440
   content: string;
   createdAt: number;
