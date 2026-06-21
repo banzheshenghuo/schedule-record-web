@@ -33,6 +33,7 @@ export default function TimeGridPicker({
   const [endCell, setEndCell] = useState(() => minutesToCell(initialEnd));
   const [error, setError] = useState<string | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const cellsRef = useRef<HTMLDivElement>(null);
   const dragging = useRef<'start' | 'end' | null>(null);
 
   const occupiedSet = useMemo(() => {
@@ -61,7 +62,9 @@ export default function TimeGridPicker({
   const canSave = canPlace(slots, { start, end });
 
   function cellFromY(clientY: number): number {
-    const el = gridRef.current;
+    // 用内部 cells 容器的 rect，自动反映当前滚动位置 + padding，
+    // 避免 grid 滚动后 clientY 映射到错误的 cell（之前会跳到顶部）
+    const el = cellsRef.current;
     if (!el) return 0;
     const rect = el.getBoundingClientRect();
     const y = clientY - rect.top;
@@ -203,7 +206,7 @@ export default function TimeGridPicker({
           </div>
 
           {/* 网格 */}
-          <div className="relative">
+          <div ref={cellsRef} className="relative">
             {Array.from({ length: CELL_COUNT }, (_, i) => {
               const occupied = occupiedSet.has(i);
               const min = i * SLOT_STEP;
