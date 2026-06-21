@@ -6,6 +6,8 @@ html,
 body,
 #root {
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -17,6 +19,7 @@ body {
   background: #f5f6f8;
   color: #1f2937;
   touch-action: manipulation;
+  overscroll-behavior-y: none;
 }
 
 button {

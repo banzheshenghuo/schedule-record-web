@@ -132,11 +132,10 @@ export default function TimeGridPicker({
 
         <div
           ref={gridRef}
-          className="relative flex-1 overflow-y-auto no-scrollbar px-4 py-2"
+          className="relative flex-1 overflow-y-auto no-scrollbar px-4 py-2 overscroll-contain"
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          style={{ touchAction: 'none' }}
         >
           {/* 选中区间高亮 */}
           {startCell < endCell && (
@@ -155,6 +154,7 @@ export default function TimeGridPicker({
             style={{
               top: startCell * CELL_HEIGHT + 8 + 4,
               transform: 'translateY(-50%)',
+              touchAction: 'none',
             }}
           >
             <div className="w-full h-6 rounded-full bg-brand text-white text-xs flex items-center justify-between px-3 shadow">
@@ -169,6 +169,7 @@ export default function TimeGridPicker({
             style={{
               top: endCell * CELL_HEIGHT + 8,
               transform: 'translateY(-50%)',
+              touchAction: 'none',
             }}
           >
             <div className="w-full h-6 rounded-full bg-brand-dark text-white text-xs flex items-center justify-between px-3 shadow">
