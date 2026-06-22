@@ -126,9 +126,19 @@ export default function TimeSlotCard({ slot, onEdit, onDelete }: Props) {
             </span>
           </div>
         </div>
-        <p className="mt-2 text-[15px] leading-relaxed text-gray-800 dark:text-zinc-100 whitespace-pre-wrap break-words line-clamp-5">
-          {slot.content.trim() || <span className="text-gray-300 dark:text-zinc-600">（无内容）</span>}
-        </p>
+        <div className="mt-2 space-y-2">
+          <p className="text-[15px] leading-relaxed text-gray-800 dark:text-zinc-100 whitespace-pre-wrap break-words line-clamp-5">
+            {slot.content.trim() || <span className="text-gray-300 dark:text-zinc-600">（无内容）</span>}
+          </p>
+          {slot.idea?.trim() && (
+            <div className="flex gap-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 border-l-2 border-amber-300 dark:border-amber-600 px-3 py-2">
+              <span className="text-sm shrink-0">💡</span>
+              <p className="text-[13px] leading-relaxed text-amber-900 dark:text-amber-200 whitespace-pre-wrap break-words line-clamp-3">
+                {slot.idea.trim()}
+              </p>
+            </div>
+          )}
+        </div>
         {onEdit && (
           <p className="mt-1 text-[11px] text-gray-300 dark:text-zinc-600">长按编辑 · 左滑删除</p>
         )}

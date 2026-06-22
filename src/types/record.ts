@@ -3,6 +3,7 @@ export interface TimeSlot {
   start: number; // 当天分钟数 0-1439，15 的倍数
   end: number; // 排他结束，> start，<=1440
   content: string;
+  idea: string; // 临时想法/念头
   createdAt: number;
   updatedAt: number;
 }
@@ -16,6 +17,7 @@ export interface DraftEntry {
   start: number;
   end: number;
   content: string;
+  idea?: string;
   updatedAt: number;
 }
 

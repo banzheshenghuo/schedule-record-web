@@ -22,6 +22,7 @@ type Editor = {
   start: number;
   end: number;
   content: string;
+  idea: string;
 };
 
 export default function RecordPage() {
@@ -58,6 +59,7 @@ export default function RecordPage() {
       start: draft?.start ?? start,
       end: draft?.end ?? start + SLOT_STEP,
       content: draft?.content ?? '',
+      idea: draft?.idea ?? '',
     });
   }
 
@@ -70,6 +72,7 @@ export default function RecordPage() {
       start: draft?.start ?? slot.start,
       end: draft?.end ?? slot.end,
       content: draft?.content ?? slot.content,
+      idea: draft?.idea ?? slot.idea ?? '',
     });
   }
 
@@ -101,6 +104,7 @@ export default function RecordPage() {
       start: editor.start,
       end: editor.end,
       content: editor.content.trim(),
+      idea: editor.idea.trim(),
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
     };
@@ -253,6 +257,12 @@ function EditorSheet({
           value={editor.content}
           onChange={(e) => onChange({ content: e.target.value })}
           autoFocus
+        />
+        <textarea
+          className="w-full min-h-[80px] mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-100 dark:placeholder-amber-500/60 rounded-xl text-[14px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-amber-300"
+          placeholder="💡 有什么想法..."
+          value={editor.idea}
+          onChange={(e) => onChange({ idea: e.target.value })}
         />
         <div className="flex gap-2 mt-3">
           <ConfirmButton variant="ghost" className="flex-1" onClick={onCancel}>

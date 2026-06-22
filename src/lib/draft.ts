@@ -8,7 +8,7 @@ export function getDraft(key: string) {
   return window.__SCHEDULE_DRAFT__?.[key];
 }
 
-export function setDraft(key: string, entry: { start: number; end: number; content: string }) {
+export function setDraft(key: string, entry: { start: number; end: number; content: string; idea?: string }) {
   if (!window.__SCHEDULE_DRAFT__) window.__SCHEDULE_DRAFT__ = {};
   window.__SCHEDULE_DRAFT__[key] = { ...entry, updatedAt: Date.now() };
 }
