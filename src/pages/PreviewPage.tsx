@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import DateBar from '../components/DateBar';
 import ConfirmButton from '../components/ConfirmButton';
-import TimeSlotCard from '../components/TimeSlotCard';
 import { useRecordsByDate } from '../hooks/useRecordsByDate';
 import { toDateKey } from '../lib/date';
 import { formatDayMarkdown } from '../lib/format';
@@ -10,11 +9,6 @@ export default function PreviewPage() {
   const [date, setDate] = useState(() => toDateKey(new Date()));
   const { record } = useRecordsByDate(date);
   const [toast, setToast] = useState<string | null>(null);
-
-  const sortedSlots = useMemo(
-    () => [...record.slots].sort((a, b) => a.start - b.start),
-    [record.slots]
-  );
 
   const markdown = useMemo(() => formatDayMarkdown(record), [record]);
 
@@ -55,15 +49,6 @@ export default function PreviewPage() {
         <pre className="whitespace-pre-wrap break-words bg-white dark:bg-zinc-800 rounded-2xl border border-gray-100 dark:border-zinc-700 p-3 text-[13px] leading-relaxed text-gray-800 dark:text-zinc-100 shadow-sm">
 {markdown}
         </pre>
-        {sortedSlots.length === 0 && (
-          <div className="text-center text-gray-400 dark:text-zinc-500 py-10">
-            <p className="text-3xl mb-2">📭</p>
-            <p>暂无记录</p>
-          </div>
-        )}
-        {sortedSlots.map((slot) => (
-          <TimeSlotCard key={slot.id} slot={slot} />
-        ))}
       </div>
       {toast && (
         <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-gray-900/85 text-white text-sm px-4 py-2 rounded-full">
