@@ -131,10 +131,9 @@ export default function TimeSlotCard({ slot, onEdit, onDelete }: Props) {
             {slot.content.trim() || <span className="text-gray-300 dark:text-zinc-600">（无内容）</span>}
           </p>
           {slot.idea?.trim() && (
-            <div className="flex gap-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 border-l-2 border-amber-300 dark:border-amber-600 px-3 py-2">
-              <span className="text-sm shrink-0">💡</span>
-              <p className="flex-1 min-w-0 text-[13px] leading-relaxed text-amber-900 dark:text-amber-200 whitespace-pre-wrap break-words line-clamp-3">
-                {slot.idea.trim()}
+            <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 border-l-2 border-amber-300 dark:border-amber-600 px-3 py-2">
+              <p className="text-[13px] leading-relaxed text-amber-900 dark:text-amber-200 whitespace-pre-wrap break-words line-clamp-3">
+                💡 {slot.idea.trim()}
               </p>
             </div>
           )}
