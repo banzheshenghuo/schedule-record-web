@@ -6,7 +6,7 @@ import SettingsPage from './pages/SettingsPage';
 
 export default function App() {
   return (
-    <div className="min-h-screen max-w-md mx-auto bg-[#f5f6f8] dark:bg-zinc-900 relative overflow-x-hidden">
+    <div className="min-h-screen max-w-md mx-auto bg-ink-50 dark:bg-ink-950 relative overflow-x-hidden">
       <main className="pb-16">
         <Routes>
           <Route path="/" element={<Navigate to="/record" replace />} />

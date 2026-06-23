@@ -15,18 +15,17 @@ export default function PreviewPage() {
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(markdown);
-      flash('已复制到剪贴板');
+      flash('copied to clipboard');
     } catch {
-      // 兼容降级
       const ta = document.createElement('textarea');
       ta.value = markdown;
       document.body.appendChild(ta);
       ta.select();
       try {
         document.execCommand('copy');
-        flash('已复制到剪贴板');
+        flash('copied to clipboard');
       } catch {
-        flash('复制失败，请手动选择');
+        flash('copy failed');
       }
       document.body.removeChild(ta);
     }
@@ -40,19 +39,19 @@ export default function PreviewPage() {
   return (
     <div className="min-h-full flex flex-col">
       <DateBar date={date} onChange={setDate} />
-      <div className="sticky top-0 z-10 bg-[#f5f6f8] dark:bg-zinc-900 px-3 py-2 max-w-md mx-auto w-full">
-        <ConfirmButton className="w-full" onClick={handleCopy}>
-          复制 Markdown
+      <div className="sticky top-0 z-10 bg-ink-50 dark:bg-ink-950 px-3 py-2 max-w-md mx-auto w-full">
+        <ConfirmButton className="w-full font-mono" onClick={handleCopy}>
+          {'> '}copy markdown
         </ConfirmButton>
       </div>
       <div className="flex-1 px-3 py-2 space-y-2 max-w-md mx-auto w-full">
-        <pre className="whitespace-pre-wrap break-words bg-white dark:bg-zinc-800 rounded-2xl border border-gray-100 dark:border-zinc-700 p-3 text-[13px] leading-relaxed text-gray-800 dark:text-zinc-100 shadow-sm">
+        <pre className="whitespace-pre-wrap break-words bg-white dark:bg-ink-850 rounded-xl border border-ink-100 dark:border-ink-700 p-4 text-[13px] leading-relaxed text-ink-700 dark:text-ink-200 shadow-sm font-mono">
 {markdown}
         </pre>
       </div>
       {toast && (
-        <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-gray-900/85 text-white text-sm px-4 py-2 rounded-full">
-          {toast}
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-ink-900 dark:bg-ink-700 text-brand text-sm px-4 py-2 rounded-lg font-mono border border-brand/30 gk-border-glow">
+          {'> '}{toast}
         </div>
       )}
     </div>

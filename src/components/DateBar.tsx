@@ -7,22 +7,26 @@ interface Props {
 
 export default function DateBar({ date, onChange }: Props) {
   return (
-    <div className="flex items-center justify-between px-3 py-2 bg-white dark:bg-zinc-800 border-b border-gray-100 dark:border-zinc-700">
+    <div className="flex items-center justify-between px-3 py-2.5 bg-white dark:bg-ink-850 border-b border-ink-100 dark:border-ink-700">
       <button
         aria-label="前一天"
-        className="w-10 h-10 flex items-center justify-center text-gray-600 dark:text-zinc-300 active:bg-gray-100 dark:active:bg-zinc-700 rounded-full"
+        className="w-10 h-10 flex items-center justify-center text-ink-400 dark:text-ink-400 active:bg-ink-50 dark:active:bg-ink-800 rounded-lg font-mono text-lg"
         onClick={() => onChange(addDays(date, -1))}
       >
-        ‹
+        ←
       </button>
       <div className="flex flex-col items-center">
-        <span className="text-base font-medium text-gray-900 dark:text-zinc-100">{shortLabel(date)}</span>
-        <span className="text-xs text-gray-400 dark:text-zinc-500">{date}</span>
+        <span className="text-base font-medium text-ink-900 dark:text-ink-100">
+          {shortLabel(date)}
+        </span>
+        <span className="text-[11px] text-ink-400 dark:text-ink-500 font-mono tracking-wider">
+          {date}
+        </span>
       </div>
       <div className="flex items-center gap-1">
         {!isToday(date) && (
           <button
-            className="text-xs text-brand px-2 h-9 rounded-full active:bg-blue-50 dark:active:bg-blue-900/30"
+            className="text-xs text-brand px-2.5 h-8 rounded-md active:bg-brand/10 font-mono border border-brand/30 dark:border-brand/30"
             onClick={() => {
               const today = new Date();
               const y = today.getFullYear();
@@ -31,15 +35,15 @@ export default function DateBar({ date, onChange }: Props) {
               onChange(`${y}-${m}-${d}`);
             }}
           >
-            今天
+            now
           </button>
         )}
         <button
           aria-label="后一天"
-          className="w-10 h-10 flex items-center justify-center text-gray-600 dark:text-zinc-300 active:bg-gray-100 dark:active:bg-zinc-700 rounded-full"
+          className="w-10 h-10 flex items-center justify-center text-ink-400 dark:text-ink-400 active:bg-ink-50 dark:active:bg-ink-800 rounded-lg font-mono text-lg"
           onClick={() => onChange(addDays(date, 1))}
         >
-          ›
+          →
         </button>
       </div>
     </div>

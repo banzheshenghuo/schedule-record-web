@@ -20,25 +20,29 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-full px-4 py-6 max-w-md mx-auto w-full">
-      <h2 className="text-lg font-medium text-gray-900 dark:text-zinc-100 mb-4">设置</h2>
+      <h2 className="text-lg font-medium text-ink-900 dark:text-ink-100 mb-4 font-mono">
+        {'~/settings'}
+      </h2>
 
-      <section className="bg-white dark:bg-zinc-800 rounded-2xl border border-gray-100 dark:border-zinc-700 overflow-hidden">
-        <div className="px-4 py-3 text-xs text-gray-400 dark:text-zinc-500 border-b border-gray-50 dark:border-zinc-700/50">
-          外观
+      <section className="bg-white dark:bg-ink-850 rounded-xl border border-ink-100 dark:border-ink-700 overflow-hidden">
+        <div className="px-4 py-3 text-[11px] text-ink-400 dark:text-ink-500 border-b border-ink-50 dark:border-ink-700/50 font-mono tracking-wide">
+          {'// appearance'}
         </div>
         <button
           onClick={toggle}
-          className="w-full flex items-center justify-between px-4 py-3 active:bg-gray-50 dark:active:bg-zinc-700/50"
+          className="w-full flex items-center justify-between px-4 py-3 active:bg-ink-50 dark:active:bg-ink-800/50"
         >
           <div>
-            <div className="text-sm text-gray-800 dark:text-zinc-100">夜间模式</div>
-            <div className="text-xs text-gray-400 dark:text-zinc-500 mt-0.5">
-              当前：{theme === 'dark' ? '已开启' : '已关闭'}
+            <div className="text-sm text-ink-800 dark:text-ink-100 font-medium">
+              {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+            </div>
+            <div className="text-xs text-ink-400 dark:text-ink-500 mt-0.5 font-mono">
+              status: {theme === 'dark' ? 'enabled' : 'disabled'}
             </div>
           </div>
           <span
             className={`relative inline-flex w-11 h-6 rounded-full transition-colors ${
-              theme === 'dark' ? 'bg-brand' : 'bg-gray-200 dark:bg-zinc-600'
+              theme === 'dark' ? 'bg-brand' : 'bg-ink-200 dark:bg-ink-600'
             }`}
           >
             <span
@@ -48,32 +52,32 @@ export default function SettingsPage() {
             />
           </span>
         </button>
-        <div className="flex gap-2 px-4 py-3 border-t border-gray-50 dark:border-zinc-700/50">
+        <div className="flex gap-2 px-4 py-3 border-t border-ink-50 dark:border-ink-700/50">
           <button
             onClick={() => pick('light')}
-            className={`flex-1 h-9 rounded-lg text-sm ${
+            className={`flex-1 h-9 rounded-lg text-sm font-mono transition-all ${
               theme === 'light'
-                ? 'bg-brand text-white'
-                : 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-zinc-300'
+                ? 'bg-brand text-ink-950 font-medium'
+                : 'bg-ink-50 dark:bg-ink-800 text-ink-500 dark:text-ink-400 border border-ink-100 dark:border-ink-700'
             }`}
           >
-            浅色
+            light
           </button>
           <button
             onClick={() => pick('dark')}
-            className={`flex-1 h-9 rounded-lg text-sm ${
+            className={`flex-1 h-9 rounded-lg text-sm font-mono transition-all ${
               theme === 'dark'
-                ? 'bg-brand text-white'
-                : 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-zinc-300'
+                ? 'bg-brand text-ink-950 font-medium'
+                : 'bg-ink-50 dark:bg-ink-800 text-ink-500 dark:text-ink-400 border border-ink-100 dark:border-ink-700'
             }`}
           >
-            深色
+            dark
           </button>
         </div>
       </section>
 
-      <p className="text-xs text-gray-400 dark:text-zinc-500 mt-6 text-center">
-        数据存储于本机，清除浏览器数据将丢失
+      <p className="text-xs text-ink-400 dark:text-ink-500 mt-6 text-center font-mono">
+        {'// data stored locally · clearing browser data will lose records'}
       </p>
     </div>
   );

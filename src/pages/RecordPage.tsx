@@ -31,7 +31,6 @@ export default function RecordPage() {
   const [editor, setEditor] = useState<Editor | null>(null);
   const [showDraftRestore, setShowDraftRestore] = useState(false);
 
-  // 进入页面时检测是否有当前日期草稿
   useEffect(() => {
     const draftKey = `${date}#__pending__`;
     const d = getDraft(draftKey);
@@ -138,10 +137,12 @@ export default function RecordPage() {
       <DateBar date={date} onChange={setDate} />
       <div className="flex-1 px-3 py-3 space-y-2 max-w-md mx-auto w-full">
         {sortedSlots.length === 0 && (
-          <div className="text-center text-gray-400 dark:text-zinc-500 py-16">
-            <p className="text-3xl mb-2">🗂️</p>
-            <p>今天还没有记录</p>
-            <p className="text-xs mt-1">点击下方 + 添加时间段</p>
+          <div className="text-center text-ink-400 dark:text-ink-500 py-16 font-mono">
+            <p className="text-2xl mb-3 text-brand animate-blink">_</p>
+            <p className="text-sm">No records yet</p>
+            <p className="text-xs mt-1 text-ink-300 dark:text-ink-600">
+              $ tap + to create a slot
+            </p>
           </div>
         )}
         {sortedSlots.map((slot) => (
@@ -155,26 +156,26 @@ export default function RecordPage() {
       </div>
 
       {showDraftRestore && (
-        <div className="fixed left-1/2 -translate-x-1/2 bottom-20 z-30 max-w-md w-[calc(100%-1.5rem)] bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-3 text-sm flex items-center justify-between">
-          <span>检测到未保存草稿</span>
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-20 z-30 max-w-md w-[calc(100%-1.5rem)] bg-accent-amber/10 border border-accent-amber/30 text-accent-amber rounded-xl p-3 text-sm flex items-center justify-between font-mono">
+          <span className="text-xs">// unsaved draft detected</span>
           <div className="flex gap-2">
             <button
-              className="text-amber-700"
+              className="text-accent-amber text-xs font-medium"
               onClick={() => {
                 openCreate();
                 setShowDraftRestore(false);
               }}
             >
-              恢复
+              restore
             </button>
             <button
-              className="text-amber-700"
+              className="text-ink-400 text-xs"
               onClick={() => {
                 clearDraft(`${date}#__pending__`);
                 setShowDraftRestore(false);
               }}
             >
-              丢弃
+              discard
             </button>
           </div>
         </div>
@@ -183,7 +184,7 @@ export default function RecordPage() {
       <div className="fixed bottom-14 inset-x-0 z-20 max-w-md mx-auto px-4 pb-2">
         <button
           onClick={openCreate}
-          className="absolute right-4 bottom-2 w-14 h-14 rounded-full bg-brand text-white text-2xl shadow-lg active:bg-brand-dark active:scale-95"
+          className="absolute right-4 bottom-2 w-14 h-14 rounded-xl bg-brand text-ink-950 text-2xl font-mono font-bold shadow-lg shadow-brand/20 active:bg-brand-dark active:scale-95 gk-border-glow"
           aria-label="添加时间段"
         >
           +
@@ -226,50 +227,52 @@ function EditorSheet({
     <div className="fixed inset-0 z-40 flex flex-col justify-end">
       <button
         aria-label="关闭"
-        className="absolute inset-0 bg-black/40"
+        className="absolute inset-0 bg-ink-950/60 backdrop-blur-sm"
         onClick={onCancel}
       />
       <div
-        className="relative bg-white dark:bg-zinc-800 rounded-t-2xl px-4 pt-4"
+        className="relative bg-white dark:bg-ink-850 rounded-t-2xl px-4 pt-4 border-t-2 border-brand/30"
         style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)' }}
       >
-        <div className="flex items-center justify-between mb-3">
-          <button className="text-gray-500 dark:text-zinc-400 text-sm" onClick={onCancel}>
-            取消
+        <div className="flex items-center justify-between mb-3 font-mono">
+          <button className="text-ink-400 dark:text-ink-400 text-sm" onClick={onCancel}>
+            esc
           </button>
-          <span className="font-medium text-gray-900 dark:text-zinc-100">编辑时间段</span>
+          <span className="font-medium text-ink-900 dark:text-ink-100 text-sm">
+            {editor.mode === 'create' ? 'new slot' : 'edit slot'}
+          </span>
           <button className="text-brand font-medium text-sm" onClick={onSave}>
-            保存
+            save
           </button>
         </div>
         <button
-          className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-zinc-700/50 rounded-xl mb-3"
+          className="w-full flex items-center justify-between px-4 py-3 bg-ink-50 dark:bg-ink-800 rounded-xl mb-3 border border-ink-100 dark:border-ink-700"
           onClick={() => setShowPicker(true)}
         >
-          <span className="text-gray-500 dark:text-zinc-400 text-sm">时间</span>
-          <span className="text-gray-900 dark:text-zinc-100 text-sm font-medium">
-            {minutesToLabel(editor.start)} - {minutesToLabel(editor.end)}
+          <span className="text-ink-400 dark:text-ink-400 text-sm font-mono">{'// time'}</span>
+          <span className="text-ink-900 dark:text-ink-100 text-sm font-medium font-mono">
+            {minutesToLabel(editor.start)}–{minutesToLabel(editor.end)}
           </span>
         </button>
         <textarea
-          className="w-full min-h-[140px] p-3 bg-gray-50 dark:bg-zinc-700/50 dark:text-zinc-100 dark:placeholder-zinc-500 rounded-xl text-[15px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-brand"
+          className="w-full min-h-[140px] p-3 bg-ink-50 dark:bg-ink-800 dark:text-ink-100 dark:placeholder-ink-600 rounded-xl text-[15px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-brand/50 border border-ink-100 dark:border-ink-700"
           placeholder="这段时间做了什么..."
           value={editor.content}
           onChange={(e) => onChange({ content: e.target.value })}
           autoFocus
         />
         <textarea
-          className="w-full min-h-[80px] mt-3 p-3 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-100 dark:placeholder-amber-500/60 rounded-xl text-[14px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-amber-300"
-          placeholder="💡 有什么想法..."
+          className="w-full min-h-[80px] mt-3 p-3 bg-accent-amber/5 dark:bg-accent-amber/10 dark:text-accent-amber/90 dark:placeholder-accent-amber/40 rounded-xl text-[14px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-accent-amber/30 border border-accent-amber/20 dark:border-accent-amber/20"
+          placeholder="// 有什么想法..."
           value={editor.idea}
           onChange={(e) => onChange({ idea: e.target.value })}
         />
         <div className="flex gap-2 mt-3">
           <ConfirmButton variant="ghost" className="flex-1" onClick={onCancel}>
-            取消
+            cancel
           </ConfirmButton>
           <ConfirmButton className="flex-1" onClick={onSave}>
-            保存
+            save
           </ConfirmButton>
         </div>
       </div>

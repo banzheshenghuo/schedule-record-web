@@ -16,7 +16,7 @@ interface Props {
   onCancel: () => void;
 }
 
-const CELL_COUNT = MINUTES_PER_DAY / SLOT_STEP; // 96 格 * 15min = 1440
+const CELL_COUNT = MINUTES_PER_DAY / SLOT_STEP;
 const CELL_HEIGHT = 36;
 
 function minutesToCell(min: number) {
@@ -45,7 +45,6 @@ export default function TimeGridPicker({
     return s;
   }, [slots]);
 
-  // 打开时自动锚定到当前选中时段，居中显示
   useEffect(() => {
     const el = gridRef.current;
     if (!el) return;
@@ -63,8 +62,6 @@ export default function TimeGridPicker({
   const canSave = canPlace(slots, { start, end });
 
   function cellFromY(clientY: number): number {
-    // 用内部 cells 容器的 rect，自动反映当前滚动位置 + padding，
-    // 避免 grid 滚动后 clientY 映射到错误的 cell（之前会跳到顶部）
     const el = cellsRef.current;
     if (!el) return 0;
     const rect = el.getBoundingClientRect();
@@ -78,7 +75,6 @@ export default function TimeGridPicker({
       e.preventDefault();
       dragging.current = target;
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
-      // 拖拽期间禁用整个 body 的文本选择，防止长按选中其他文本
       document.body.style.userSelect = 'none';
       document.body.style.webkitUserSelect = 'none';
     };
@@ -90,9 +86,7 @@ export default function TimeGridPicker({
     if (dragging.current === 'start') {
       if (idx < endCell && !occupiedSet.has(idx)) setStartCell(idx);
     } else {
-      // end handle: index+1 is the end cell
       if (idx + 1 > startCell) {
-        // check no occupied cell in range [startCell, idx]
         let blocked = false;
         for (let i = startCell; i <= idx; i++) {
           if (occupiedSet.has(i)) {
@@ -124,31 +118,33 @@ export default function TimeGridPicker({
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <button
         aria-label="关闭"
-        className="absolute inset-0 bg-black/40"
+        className="absolute inset-0 bg-ink-950/60 backdrop-blur-sm"
         onClick={onCancel}
       />
-      <div className="relative bg-white dark:bg-zinc-800 rounded-t-2xl max-h-[80vh] flex flex-col">
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-zinc-700">
-          <button className="text-gray-500 dark:text-zinc-400 text-sm" onClick={onCancel}>
-            取消
+      <div className="relative bg-white dark:bg-ink-850 rounded-t-2xl max-h-[80vh] flex flex-col border-t-2 border-brand/30">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-ink-100 dark:border-ink-700 font-mono">
+          <button className="text-ink-400 dark:text-ink-400 text-sm" onClick={onCancel}>
+            esc
           </button>
-          <span className="font-medium text-gray-900 dark:text-zinc-100">选择时间段</span>
+          <span className="font-medium text-ink-900 dark:text-ink-100 text-sm">
+            select_range
+          </span>
           <button
             className="text-brand text-sm font-medium disabled:opacity-40"
             disabled={!canSave}
             onClick={handleConfirm}
           >
-            确定
+            ok
           </button>
         </div>
 
-        <div className="px-4 pt-3 text-sm text-gray-600 dark:text-zinc-300">
-          已选：
-          <span className="text-gray-900 dark:text-zinc-100 font-medium">
-            {minutesToLabel(start)} - {minutesToLabel(end)}
+        <div className="px-4 pt-3 text-sm text-ink-500 dark:text-ink-400 font-mono">
+          <span className="text-ink-400">{'// selected: '}</span>
+          <span className="text-ink-900 dark:text-ink-100 font-medium">
+            {minutesToLabel(start)}–{minutesToLabel(end)}
           </span>
-          <span className="ml-2 text-gray-400 dark:text-zinc-500 text-xs">
-            {(end - start) / 60} 小时
+          <span className="ml-2 text-ink-400 text-xs">
+            {((end - start) / 60).toFixed(1)}h
           </span>
         </div>
 
@@ -168,7 +164,7 @@ export default function TimeGridPicker({
           {/* 选中区间高亮 */}
           {startCell < endCell && (
             <div
-              className="absolute left-4 right-4 bg-blue-100/60 dark:bg-blue-900/30 border-l-4 border-brand rounded-md pointer-events-none"
+              className="absolute left-4 right-4 bg-brand/10 dark:bg-brand/10 border-l-2 border-brand rounded-md pointer-events-none"
               style={{
                 top: startCell * CELL_HEIGHT + 8,
                 height: (endCell - startCell) * CELL_HEIGHT,
@@ -185,9 +181,9 @@ export default function TimeGridPicker({
               touchAction: 'none',
             }}
           >
-            <div className="w-full h-6 rounded-full bg-brand text-white text-xs flex items-center justify-between px-3 shadow">
-              <span>起 {minutesToLabel(start)}</span>
-              <span className="opacity-70">⋮⋮</span>
+            <div className="w-full h-6 rounded-md bg-brand text-ink-950 text-xs flex items-center justify-between px-3 font-mono font-medium shadow-md shadow-brand/20">
+              <span>start {minutesToLabel(start)}</span>
+              <span className="opacity-50">::</span>
             </div>
           </div>
           {/* 结束手柄 */}
@@ -200,14 +196,14 @@ export default function TimeGridPicker({
               touchAction: 'none',
             }}
           >
-            <div className="w-full h-6 rounded-full bg-brand-dark text-white text-xs flex items-center justify-between px-3 shadow">
-              <span>止 {minutesToLabel(end)}</span>
-              <span className="opacity-70">⋮⋮</span>
+            <div className="w-full h-6 rounded-md bg-brand-dark text-white text-xs flex items-center justify-between px-3 font-mono font-medium shadow-md shadow-brand/20">
+              <span>end {minutesToLabel(end)}</span>
+              <span className="opacity-50">::</span>
             </div>
           </div>
 
           {/* 网格 */}
-          <div ref={cellsRef} className="relative">
+          <div ref={cellsRef} className="relative font-mono">
             {Array.from({ length: CELL_COUNT }, (_, i) => {
               const occupied = occupiedSet.has(i);
               const min = i * SLOT_STEP;
@@ -216,15 +212,15 @@ export default function TimeGridPicker({
                 <div
                   key={i}
                   data-index={i}
-                  className="flex items-center border-b border-gray-50 dark:border-zinc-700/40"
+                  className="flex items-center border-b border-ink-50 dark:border-ink-700/40"
                   style={{ height: CELL_HEIGHT }}
                 >
                   <div
                     className={[
                       'w-16 text-xs',
                       occupied
-                        ? 'text-gray-300 dark:text-zinc-600'
-                        : 'text-gray-500 dark:text-zinc-400',
+                        ? 'text-ink-300 dark:text-ink-600 line-through'
+                        : 'text-ink-500 dark:text-ink-400',
                     ].join(' ')}
                   >
                     {minutesToLabel(min)}
@@ -233,11 +229,11 @@ export default function TimeGridPicker({
                     className={[
                       'flex-1 text-xs',
                       occupied
-                        ? 'text-gray-300 dark:text-zinc-600'
-                        : 'text-gray-400 dark:text-zinc-500',
+                        ? 'text-ink-300 dark:text-ink-600'
+                        : 'text-ink-400 dark:text-ink-500',
                     ].join(' ')}
                   >
-                    {occupied ? '占用' : `至 ${minutesToLabel(nextMin)}`}
+                    {occupied ? '[locked]' : `→ ${minutesToLabel(nextMin)}`}
                   </div>
                 </div>
               );
@@ -246,21 +242,23 @@ export default function TimeGridPicker({
         </div>
 
         {error && (
-          <div className="px-4 py-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border-t border-red-100 dark:border-red-900/40">
-            {error}
+          <div className="px-4 py-2 text-sm text-accent-coral dark:text-accent-coral bg-accent-coral/10 border-t border-accent-coral/20 font-mono">
+            {'> error: '}{error}
           </div>
         )}
         <div
-          className="px-4 py-3 border-t border-gray-100 dark:border-zinc-700"
+          className="px-4 py-3 border-t border-ink-100 dark:border-ink-700"
           style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)' }}
         >
-          <p className="text-xs text-gray-400 dark:text-zinc-500 mb-2">长按上/下手柄拖动调整范围</p>
+          <p className="text-xs text-ink-400 dark:text-ink-500 mb-2 font-mono">
+            {'// drag handles to adjust range'}
+          </p>
           <button
-            className="w-full h-11 rounded-xl bg-brand text-white font-medium active:bg-brand-dark disabled:opacity-40"
+            className="w-full h-11 rounded-xl bg-brand text-ink-950 font-medium font-mono active:bg-brand-dark disabled:opacity-40 transition-all active:scale-[0.98] gk-border-glow"
             disabled={!canSave}
             onClick={handleConfirm}
           >
-            保存
+            confirm
           </button>
         </div>
       </div>

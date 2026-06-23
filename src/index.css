@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,26 +13,44 @@ body,
 }
 
 :root {
-  --bg: #f5f6f8;
-  --text: #1f2937;
+  --bg: #f0f2f5;
+  --bg-card: #ffffff;
+  --text: #1a212c;
+  --text-muted: #6b7689;
+  --border: #e2e6ec;
+  --accent: #00d9a3;
 }
 
 html.dark {
-  --bg: #0f1115;
-  --text: #e5e7eb;
+  --bg: #080b11;
+  --bg-card: #111720;
+  --text: #e2e6ec;
+  --text-muted: #6b7689;
+  --border: #1c2330;
+  --accent: #00d9a3;
 }
 
 body {
   margin: 0;
   -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue',
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue',
     Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   touch-action: manipulation;
   overscroll-behavior-y: none;
   transition: background-color 200ms, color 200ms;
+}
+
+/* 深色模式微弱网格背景 */
+html.dark body {
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(0, 217, 163, 0.04) 0%, transparent 50%),
+    linear-gradient(rgba(28, 35, 48, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 35, 48, 0.4) 1px, transparent 1px);
+  background-size: 100% 100%, 24px 24px, 24px 24px;
+  background-position: 0 0, 0 0, 0 0;
 }
 
 button {
@@ -44,4 +64,32 @@ button {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* 极客风格工具类 */
+.gk-terminal {
+  font-family: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+.gk-glow {
+  text-shadow: 0 0 8px rgba(0, 217, 163, 0.5);
+}
+
+.gk-border-glow {
+  box-shadow: 0 0 0 1px rgba(0, 217, 163, 0.2), 0 0 12px rgba(0, 217, 163, 0.08);
+}
+
+/* 扫描线效果 */
+.gk-scanline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 217, 163, 0.02) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
