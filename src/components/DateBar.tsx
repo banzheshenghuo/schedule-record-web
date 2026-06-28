@@ -3,9 +3,10 @@ import { addDays, isToday, shortLabel } from '../lib/date';
 interface Props {
   date: string;
   onChange: (next: string) => void;
+  onDateClick?: () => void;
 }
 
-export default function DateBar({ date, onChange }: Props) {
+export default function DateBar({ date, onChange, onDateClick }: Props) {
   return (
     <div className="flex items-center justify-between px-3 py-2.5 bg-white dark:bg-ink-850 border-b border-ink-100 dark:border-ink-700">
       <button
@@ -15,7 +16,10 @@ export default function DateBar({ date, onChange }: Props) {
       >
         ←
       </button>
-      <div className="flex flex-col items-center">
+      <div
+        className={`flex flex-col items-center ${onDateClick ? 'cursor-pointer active:scale-95 transition-transform' : ''}`}
+        onClick={onDateClick}
+      >
         <span className="text-base font-medium text-ink-900 dark:text-ink-100">
           {shortLabel(date)}
         </span>

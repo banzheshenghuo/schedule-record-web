@@ -1,16 +1,23 @@
 import { useMemo, useState } from 'react';
 import DateBar from '../components/DateBar';
 import ConfirmButton from '../components/ConfirmButton';
+import Calendar from '../components/Calendar';
 import { useRecordsByDate } from '../hooks/useRecordsByDate';
 import { toDateKey } from '../lib/date';
 import { formatDayMarkdown } from '../lib/format';
+import { getRecordedDates } from '../lib/storage';
 
 export default function PreviewPage() {
   const [date, setDate] = useState(() => toDateKey(new Date()));
   const { record } = useRecordsByDate(date);
   const [toast, setToast] = useState<string | null>(null);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const markdown = useMemo(() => formatDayMarkdown(record), [record]);
+
+  const recordedDates = useMemo(() => {
+    return new Set(getRecordedDates());
+  }, [date, showCalendar]);
 
   async function handleCopy() {
     try {
@@ -38,7 +45,7 @@ export default function PreviewPage() {
 
   return (
     <div className="min-h-full flex flex-col">
-      <DateBar date={date} onChange={setDate} />
+      <DateBar date={date} onChange={setDate} onDateClick={() => setShowCalendar(true)} />
       <div className="sticky top-0 z-10 bg-ink-50 dark:bg-ink-950 px-3 py-2 max-w-md mx-auto w-full">
         <ConfirmButton className="w-full font-mono" onClick={handleCopy}>
           {'> '}copy markdown
@@ -53,6 +60,14 @@ export default function PreviewPage() {
         <div className="fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-ink-900 dark:bg-ink-700 text-brand text-sm px-4 py-2 rounded-lg font-mono border border-brand/30 gk-border-glow">
           {'> '}{toast}
         </div>
+      )}
+      {showCalendar && (
+        <Calendar
+          currentDate={date}
+          recordedDates={recordedDates}
+          onSelect={setDate}
+          onClose={() => setShowCalendar(false)}
+        />
       )}
     </div>
   );
