@@ -23,6 +23,7 @@ type Editor = {
   end: number;
   content: string;
   idea: string;
+  notes: string;
 };
 
 export default function RecordPage() {
@@ -59,6 +60,7 @@ export default function RecordPage() {
       end: draft?.end ?? start + SLOT_STEP,
       content: draft?.content ?? '',
       idea: draft?.idea ?? '',
+      notes: draft?.notes ?? '',
     });
   }
 
@@ -72,12 +74,13 @@ export default function RecordPage() {
       end: draft?.end ?? slot.end,
       content: draft?.content ?? slot.content,
       idea: draft?.idea ?? slot.idea ?? '',
+      notes: draft?.notes ?? slot.notes ?? '',
     });
   }
 
   function syncDraft(next: Editor) {
     const draftKey = editor!.mode === 'create' ? `${date}#__pending__` : `${date}#${next.slotId}`;
-    setDraft(draftKey, { start: next.start, end: next.end, content: next.content });
+    setDraft(draftKey, { start: next.start, end: next.end, content: next.content, idea: next.idea, notes: next.notes });
   }
 
   function updateEditor(patch: Partial<Editor>) {
@@ -104,6 +107,7 @@ export default function RecordPage() {
       end: editor.end,
       content: editor.content.trim(),
       idea: editor.idea.trim(),
+      notes: editor.notes.trim(),
       createdAt: existing?.createdAt ?? now,
       updatedAt: now,
     };
@@ -266,6 +270,12 @@ function EditorSheet({
           placeholder="// 有什么想法..."
           value={editor.idea}
           onChange={(e) => onChange({ idea: e.target.value })}
+        />
+        <textarea
+          className="w-full min-h-[80px] mt-3 p-3 bg-ink-100/60 dark:bg-ink-700/40 dark:text-ink-200 dark:placeholder-ink-500 rounded-xl text-[14px] leading-relaxed resize-none focus:outline-none focus:ring-2 focus:ring-ink-400/30 border border-ink-200 dark:border-ink-600 font-mono"
+          placeholder="// 电话号码、备忘事项..."
+          value={editor.notes}
+          onChange={(e) => onChange({ notes: e.target.value })}
         />
         <div className="flex gap-2 mt-3">
           <ConfirmButton variant="ghost" className="flex-1" onClick={onCancel}>

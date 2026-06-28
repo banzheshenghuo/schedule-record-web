@@ -4,6 +4,7 @@ export interface TimeSlot {
   end: number; // 排他结束，> start，<=1440
   content: string;
   idea: string; // 临时想法/念头
+  notes: string; // 随手数据：电话号码、备忘事项
   createdAt: number;
   updatedAt: number;
 }
@@ -18,6 +19,7 @@ export interface DraftEntry {
   end: number;
   content: string;
   idea?: string;
+  notes?: string;
   updatedAt: number;
 }
 

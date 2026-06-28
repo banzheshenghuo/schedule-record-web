@@ -134,6 +134,12 @@ export default function TimeSlotCard({ slot, onEdit, onDelete }: Props) {
               {slot.idea.trim()}
             </div>
           )}
+          {slot.notes?.trim() && (
+            <div className="rounded-lg bg-ink-100/60 dark:bg-ink-700/40 border-l-2 border-ink-400 dark:border-ink-500 px-3 py-2 text-[13px] leading-relaxed text-ink-700 dark:text-ink-300 whitespace-pre-wrap break-words">
+              <span className="font-mono text-ink-400 dark:text-ink-500 text-xs mr-1">{'// notes'}</span>
+              {slot.notes.trim()}
+            </div>
+          )}
         </div>
         {onEdit && (
           <p className="mt-1.5 text-[10px] text-ink-300 dark:text-ink-600 font-mono tracking-wide">
